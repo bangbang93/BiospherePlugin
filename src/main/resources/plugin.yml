@@ -1,0 +1,7 @@
+name: Biosphere Plugin
+main: ru.o4kapuk.bukkit.biosphere.BiospherePlugin
+version: 0.0.1
+commands:
+  biosphere:
+    description: Generates biosphere world.
+    usage: /biosphere name
