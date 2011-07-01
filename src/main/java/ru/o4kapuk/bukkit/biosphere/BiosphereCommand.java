@@ -8,6 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.Location;
 
 /**
  *
@@ -22,7 +25,23 @@ public class BiosphereCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
-        sender.sendMessage("Will try");
+        
+        if(sender instanceof Player) {
+            sender.sendMessage("Will try");
+            
+            BiosphereGenerator gen = new BiosphereGenerator();
+            World bio = plugin.getServer().getWorld("biosphere");
+            if(null == bio) {
+                bio = plugin.getServer().createWorld("biosphere",Environment.SKYLANDS,plugin.getServer().getWorlds().get(0).getSeed(), gen);
+            }
+            Player player = (Player) sender;
+            Location loc = bio.getSpawnLocation();
+            loc.setY(4);
+            player.teleport(loc);
+        }
+        
+        
+
         return true;
     }
 }

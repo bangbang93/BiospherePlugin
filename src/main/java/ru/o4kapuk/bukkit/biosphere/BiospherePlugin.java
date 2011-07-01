@@ -3,6 +3,8 @@ package ru.o4kapuk.bukkit.biosphere;
 
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
 
 /**
  * Sample plugin for Bukkit
@@ -16,6 +18,12 @@ public class BiospherePlugin extends JavaPlugin {
     }
 
     public void onEnable() {
+        World bio = getServer().getWorld("biosphere");
+        if(null == bio) {
+            BiosphereGenerator gen = new BiosphereGenerator();
+            bio = getServer().createWorld("biosphere",Environment.SKYLANDS,getServer().getWorlds().get(0).getSeed(), gen);
+        }
+        
         // Register our commands
         getCommand("biosphere").setExecutor(new BiosphereCommand(this));
 
