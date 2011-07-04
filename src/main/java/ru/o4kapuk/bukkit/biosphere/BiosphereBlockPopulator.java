@@ -60,7 +60,8 @@ public class BiosphereBlockPopulator extends BlockPopulator {
             }
         }
     }
-    
+
+    /*
     public void generateMineable(Material material, int param, int i, int j, int k) {
         float f = random.nextFloat() * 3.1415927F;
         double d0 = (double) ((float) (i + 8) + MathHelper.a(f) * (float) param / 8.0F);
@@ -119,6 +120,7 @@ public class BiosphereBlockPopulator extends BlockPopulator {
             }
         }
     }
+    */
     
     private boolean canPlaceReed(int i, int j, int k) {
         int under = world.getBlockTypeIdAt(i, j - 1, k);
@@ -255,22 +257,22 @@ public class BiosphereBlockPopulator extends BlockPopulator {
         for(i = 0; i < 10; i++) {
             this.generateClay(32, k + random.nextInt(16), random.nextInt(64), l + random.nextInt(16));
         }
-        
-        for(i = 0; i < 20; i++) {
-            this.generateMineable(Material.COAL_ORE, 16, k + random.nextInt(16), random.nextInt(64), l + random.nextInt(16));
-        }
-        
-        for(i = 0; i < 20; i++) {
-            this.generateMineable(Material.IRON_ORE, 8, k + random.nextInt(16), random.nextInt(64), l + random.nextInt(16));
-        }
-        
-        for(i = 0; i < 2; i++) {
-            this.generateMineable(Material.GOLD_ORE, 8, k + random.nextInt(16), random.nextInt(64), l + random.nextInt(16));
-        }
-        
-        for(i = 0; i < 8; i++) {
-            this.generateMineable(Material.REDSTONE_ORE, 7, k + random.nextInt(16), random.nextInt(64), l + random.nextInt(16));
-        }
+
+//        for(i = 0; i < 20; i++) {
+//            this.generateMineable(Material.COAL_ORE, 16, k + random.nextInt(16), random.nextInt(64), l + random.nextInt(16));
+//        }
+//        
+//        for(i = 0; i < 20; i++) {
+//            this.generateMineable(Material.IRON_ORE, 8, k + random.nextInt(16), random.nextInt(64), l + random.nextInt(16));
+//        }
+//        
+//        for(i = 0; i < 2; i++) {
+//            this.generateMineable(Material.GOLD_ORE, 8, k + random.nextInt(16), random.nextInt(64), l + random.nextInt(16));
+//        }
+//        
+//        for(i = 0; i < 8; i++) {
+//            this.generateMineable(Material.REDSTONE_ORE, 7, k + random.nextInt(16), random.nextInt(64), l + random.nextInt(16));
+//        }
         
         int treeCount = 0;
         if(random.nextInt(10) == 0)
@@ -300,21 +302,21 @@ public class BiosphereBlockPopulator extends BlockPopulator {
             world.generateTree(loc, random.nextInt(10) == 0 ? TreeType.BIG_TREE : TreeType.TREE);
         }
         
-        for(i = 0; i < 2; i++) {
-            this.generateFlowers(Material.YELLOW_FLOWER, k + random.nextInt(16) + 8, random.nextInt(128), l + random.nextInt(16) + 8);
-        }
-
-        if(random.nextInt(2) == 0) {
-            this.generateFlowers(Material.RED_ROSE, k + random.nextInt(16) + 8, random.nextInt(128), l + random.nextInt(16) + 8);
-        }
-        
-        if(random.nextInt(4) == 0) {
-            this.generateFlowers(Material.BROWN_MUSHROOM, k + random.nextInt(16) + 8, random.nextInt(128), l + random.nextInt(16) + 8);
-        }
-        
-        if(random.nextInt(8) == 0) {
-            this.generateFlowers(Material.RED_MUSHROOM, k + random.nextInt(16) + 8, random.nextInt(128), l + random.nextInt(16) + 8);
-        }
+//        for(i = 0; i < 2; i++) {
+//            this.generateFlowers(Material.YELLOW_FLOWER, k + random.nextInt(16) + 8, random.nextInt(128), l + random.nextInt(16) + 8);
+//        }
+//
+//        if(random.nextInt(2) == 0) {
+//            this.generateFlowers(Material.RED_ROSE, k + random.nextInt(16) + 8, random.nextInt(128), l + random.nextInt(16) + 8);
+//        }
+//        
+//        if(random.nextInt(4) == 0) {
+//            this.generateFlowers(Material.BROWN_MUSHROOM, k + random.nextInt(16) + 8, random.nextInt(128), l + random.nextInt(16) + 8);
+//        }
+//        
+//        if(random.nextInt(8) == 0) {
+//            this.generateFlowers(Material.RED_MUSHROOM, k + random.nextInt(16) + 8, random.nextInt(128), l + random.nextInt(16) + 8);
+//        }
         
         for(i = 0; i < 10; i++) {
             this.generateReed(k + random.nextInt(16), random.nextInt(128), l + random.nextInt(16));
