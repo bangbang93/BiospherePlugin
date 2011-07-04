@@ -37,7 +37,7 @@ public class BiosphereCommand implements CommandExecutor {
             Player player = (Player) sender;
             Location loc = bio.getSpawnLocation();
             
-            loc.setY(4);
+//            loc.setY(4);
             player.teleport(loc);
         }
         

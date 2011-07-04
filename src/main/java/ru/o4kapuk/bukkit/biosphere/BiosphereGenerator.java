@@ -5,8 +5,11 @@
 package ru.o4kapuk.bukkit.biosphere;
 
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.generator.BlockPopulator;
 import org.bukkit.Chunk;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.World;
@@ -78,7 +81,14 @@ public class BiosphereGenerator extends ChunkGenerator {
             rndNoise = null;
         }
     }
-    
+
+    @Override
+    public List<BlockPopulator> getDefaultPopulators(World world) {
+        List<BlockPopulator> res = super.getDefaultPopulators(world);
+        res.add(new BiosphereBlockPopulator());
+        return res;
+    }
+
     public void preGenerateChunk(int chunkX, int chunkZ, byte blockArray[])
     {
 //        biome.
@@ -230,6 +240,7 @@ public class BiosphereGenerator extends ChunkGenerator {
     
     @Override
     public byte[] generate(World world, Random random, int x, int z) {
+//        System.out.print("Generating chunk " + x + ":" + z);
         this.world = world;
 //        this.rndSphere = random;
         byte res[] = new byte[32768];
@@ -251,22 +262,31 @@ public class BiosphereGenerator extends ChunkGenerator {
                      // result[(x * 16 + z) * 128 + y] = ??;
                 }
             }
-        }        
+        }
+        
+        
         return res;
     }
     
+    @Override
     public boolean canSpawn(World world, int x, int z) {
-        return true;
+        Block highest = world.getBlockAt(x, world.getHighestBlockYAt(x, z), z);
+
+                return highest.getType() != Material.AIR
+                        && highest.getType() != Material.WATER
+                        && highest.getType() != Material.STATIONARY_WATER
+                        && highest.getType() != Material.BEDROCK
+                        && highest.getType() != Material.LAVA;
     }
 
 
-    public static final double getInverseDistance(double x1, double y1, double z1, double x2, 
+    public static double getInverseDistance(double x1, double y1, double z1, double x2, 
             double y2, double z2)
     {
         return Math.sqrt(-Math.pow(y2 - y1, 2D) + Math.pow(x2 - x1, 2D) + Math.pow(z2 - z1, 2D));
     }
 
-    public static final double getDistance(double x1, double y1, double z1, double x2, 
+    public static double getDistance(double x1, double y1, double z1, double x2, 
             double y2, double z2)
     {
         return Math.sqrt(Math.pow(y2 - y1, 2D) + Math.pow(x2 - x1, 2D) + Math.pow(z2 - z1, 2D));
@@ -289,4 +309,5 @@ public class BiosphereGenerator extends ChunkGenerator {
         else
             return 64;
     }
+    
 }
