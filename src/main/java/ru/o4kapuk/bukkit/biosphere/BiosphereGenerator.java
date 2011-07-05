@@ -89,6 +89,14 @@ public class BiosphereGenerator extends ChunkGenerator {
     public List<BlockPopulator> getDefaultPopulators(World world) {
         List<BlockPopulator> res = super.getDefaultPopulators(world);
         res.add(new BiosphereBlockPopulator());
+        res.add(new MineablePopulator(Material.COAL_ORE, 20, 16));
+        res.add(new MineablePopulator(Material.IRON_ORE, 20, 8));
+        res.add(new MineablePopulator(Material.GOLD_ORE, 2, 8));
+        res.add(new MineablePopulator(Material.REDSTONE_ORE, 8, 7));
+        res.add(new FlowerPopulator(Material.YELLOW_FLOWER, 2));
+        res.add(new FlowerPopulator(Material.RED_ROSE, 2));
+        res.add(new FlowerPopulator(Material.BROWN_MUSHROOM, 4));
+        res.add(new FlowerPopulator(Material.RED_MUSHROOM, 8));
         return res;
     }
 
