@@ -196,7 +196,7 @@ public class BiosphereBlockPopulator extends BlockPopulator {
             return false;
         }
         
-        if(under != Material.CACTUS.getId() && under != Material.WATER.getId()) {
+        if(under != Material.CACTUS.getId() && under != Material.SAND.getId()) {
             return false;            
         }
 
@@ -235,19 +235,14 @@ public class BiosphereBlockPopulator extends BlockPopulator {
     
     @Override
     public void populate(World world, Random random, Chunk source) {
-//        System.out.print("Populating chunk " + source.getX() + ":" + source.getZ());
-
         this.random = random;
         this.world = world;
         
-        Biome biome = source.getChunkSnapshot(false, true, false).getBiome(8, 8);
-
-        BiosphereGenerator bgen = null;
-        ChunkGenerator gen = this.world.getGenerator();
-        if(gen instanceof BiosphereGenerator) {
-            bgen = (BiosphereGenerator) gen;
+        Biome biome = BiosphereGenerator.getBiome(source.getX(), source.getZ());
+        if(null == biome) {
+            System.out.print("boime at " + source.getX() + ":" + source.getZ() + " is null :-(");
         }
-        
+
         int i;
         int k = source.getX() << 4;
         int l = source.getZ() << 4;
@@ -274,28 +269,30 @@ public class BiosphereBlockPopulator extends BlockPopulator {
         
         int treeCount = 0;
         if(random.nextInt(10) == 0)
-            treeCount++;
-
-        switch(biome) {
-            case SEASONAL_FOREST:
-                treeCount += 2;
-                break;
-            case FOREST:
-            case RAINFOREST:
-            case TAIGA:
-                treeCount += 5;
-                break;
-            case DESERT:
-            case TUNDRA:
-            case PLAINS:
-            treeCount -= 20;
+            treeCount += 5;
+                    
+        if(null != biome) {
+            switch(biome) {
+                case SEASONAL_FOREST:
+                    treeCount += 10;
+                    break;
+                case RAINFOREST:
+                case FOREST:
+                case TAIGA:
+                    treeCount += 50;
+                    break;
+                case DESERT:
+                case TUNDRA:
+                case PLAINS:
+                treeCount -= 100;
+            }
         }
         
         for(i = 0; i < treeCount; i++)
         {
             int x = k + random.nextInt(16) + 8;
             int z = l + random.nextInt(16) + 8;
-            int y = (null == bgen) ? 64 : bgen.getSurfaceLevel(x, z);
+            int y = 32 + random.nextInt(64);
             Location loc = new Location(world, x, y, z);
             world.generateTree(loc, random.nextInt(10) == 0 ? TreeType.BIG_TREE : TreeType.TREE);
         }
@@ -328,20 +325,22 @@ public class BiosphereBlockPopulator extends BlockPopulator {
         
         int k1 = k + random.nextInt(16);
         int l1 = l + random.nextInt(16);
-        int midY = (null == bgen) ? 64 : bgen.getSurfaceLevel(k1, l1) + 1;
-        switch(biome) {
-            case DESERT:
-                for(i = 0; i < random.nextInt(5); i++) {
-                    this.generateCactus(k1, midY, l1);
-                }
-                break;
-            case HELL:
-                if(random.nextBoolean()) {
-                    this.generateFire(k1, midY, l1);
-                }
-                break;
+        int midY = 32 + random.nextInt(64);
+        if(null != biome) {
+            switch(biome) {
+                case DESERT:
+                    for(i = 0; i < random.nextInt(5); i++) {
+                        System.out.print("Generating cactus");
+                        this.generateCactus(k1, midY, l1);
+                    }
+                    break;
+                case HELL:
+                    if(random.nextBoolean()) {
+                        this.generateFire(k1, midY, l1);
+                    }
+                    break;
+            }
         }
-        
         //TODO: snow blocks in cold areas
     }
 

@@ -6,16 +6,19 @@ package ru.o4kapuk.bukkit.biosphere;
 
 import java.util.Random;
 import java.util.List;
-import java.util.ArrayList;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+//import java.util.ArrayList;
 
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.Chunk;
-import org.bukkit.ChunkSnapshot;
+//import org.bukkit.ChunkSnapshot;
 import org.bukkit.World;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Biome;
+import org.bukkit.Location;
 
 /**
  *
@@ -56,7 +59,7 @@ public class BiosphereGenerator extends ChunkGenerator {
     public double lakeRadius;
     public double lakeEdgeRadius;
     
-    Biome biome;
+//    Biome biome;
     
     private NoiseGeneratorOctaves noiseGen;
     public final Random rndNoise;
@@ -89,10 +92,10 @@ public class BiosphereGenerator extends ChunkGenerator {
         return res;
     }
 
-    public void preGenerateChunk(int chunkX, int chunkZ, byte blockArray[])
+    public void preGenerateChunk(int chunkX, int chunkZ, byte blockArray[]) 
     {
 //        biome.
-        
+        Biome biome = getBiome(chunkX, chunkZ);
         int localChunkX = chunkX << 4;
         int localChunkZ = chunkZ << 4;
         for(int z = 0; z < 16; z++)
@@ -144,12 +147,22 @@ public class BiosphereGenerator extends ChunkGenerator {
                         if(y == midY + 1 && mainDistance > sphereRadius && (Math.abs((localChunkX + x) - midX) == BRIDGE_SIZE || Math.abs((localChunkZ + z) - midZ) == BRIDGE_SIZE))
                             blockID = BRIDGE_RAIL;
                     } else
-                    if(mainDistance == sphereRadius)
-                        blockID = (byte)Material.STONE.getId();
+                    if(mainDistance == sphereRadius) {
+                        switch(biome) {
+                            case DESERT:
+                                blockID = (byte)Material.SANDSTONE.getId();
+                                break;
+                            case HELL:
+                                blockID = (byte)Material.OBSIDIAN.getId();
+                                break;
+                            default:                        
+                                blockID = (byte)Material.STONE.getId();
+                        }
+                    }
                     else
                     if(hasLake && biome != Biome.DESERT && mainDistance <= lakeRadius)
                     {
-                        if(y == lakeMidY && biome == Biome.TUNDRA)
+                        if(y == lakeMidY && (biome == Biome.TUNDRA || biome == Biome.ICE_DESERT))
                             blockID = (byte)Material.ICE.getId();
                         else
                         if(y <= lakeMidY)
@@ -160,13 +173,35 @@ public class BiosphereGenerator extends ChunkGenerator {
                     else
                     if(mainDistance < sphereRadius)
                     {
-                        if(y == midY)
-                            blockID = (byte)Material.GRASS.getId();
-                        else
-                        if(y == midY - 1)
-                            blockID = (byte)Material.DIRT.getId();
-                        else
-                            blockID = (byte)Material.STONE.getId();
+                        switch(biome) {
+                            case DESERT:
+                                if(y <= midY && y > midY - 5)
+                                    blockID = (byte)Material.SAND.getId();
+                                else
+                                if(y <= midY - 5 && y > midY - 7)
+                                    blockID = (byte)Material.SANDSTONE .getId();
+                                else
+                                    blockID = (byte)Material.STONE .getId();
+                                break;
+                            case ICE_DESERT:
+                                if(y <= midY && y > midY - 4)
+                                    blockID = (byte)Material.SNOW_BLOCK .getId();
+                                else
+                                    blockID = (byte)Material.STONE .getId();
+                                break;
+                            case HELL:
+                                blockID = (byte)Material.NETHERRACK.getId();
+                                break;
+                            default:
+                                if(y == midY)
+                                    blockID = (byte)Material.GRASS.getId();
+                                else
+                                if(y < midY && y > midY - 3)
+                                    blockID = (byte)Material.DIRT.getId();
+                                else
+                                    blockID = (byte)Material.STONE .getId();
+                                break;
+                        }
                     } else
                     if(y == midY && mainDistance > sphereRadius && (Math.abs((localChunkX + x) - midX) < BRIDGE_SIZE + 1 || Math.abs((localChunkZ + z) - midZ) < BRIDGE_SIZE + 1))
                         blockID = BRIDGE_SUPPORT;
@@ -193,10 +228,60 @@ public class BiosphereGenerator extends ChunkGenerator {
 
     }
 
-    public void setRand(int chunkX, int chunkZ)
+    public static Biome getBiome(Chunk chunk) {
+        return getBiome(chunk.getX(), chunk.getZ());
+    }
+    
+    public static Biome getBiome(int chunkX, int chunkZ) {
+        
+        int sphereX = (chunkX - (int)Math.floor(Math.IEEEremainder(chunkX, GRID_SIZE)) << 4) + 8;
+        int sphereZ = (chunkZ - (int)Math.floor(Math.IEEEremainder(chunkZ, GRID_SIZE)) << 4) + 8;
+
+        int pseudoRandomLast = 4;
+        try {
+            StringBuilder s = new StringBuilder();
+            s.append(sphereX).append(":").append(sphereZ);
+            MessageDigest md5 = MessageDigest.getInstance("SHA");
+            byte[] thedigest = md5.digest(s.toString().getBytes());
+
+//            Random random = new Random();
+ //           random.setSeed(sphereX);
+
+    //        int pseudoRandom = random.nextInt(Math.abs(sphereZ));
+            pseudoRandomLast = 8 + (int) (Math.floor(Math.IEEEremainder(thedigest[0], 16)));
+//            pseudoRandomLast = pseudoRandom - 20*Math.round(pseudoRandom/20);
+        } catch (NoSuchAlgorithmException e) {
+        }
+        
+        
+//        System.out.print("pseudoRandomLast " + pseudoRandomLast);
+        
+        Biome[] biomes = new Biome[] {
+            Biome.HELL,
+            Biome.DESERT,
+            Biome.DESERT,
+            Biome.FOREST,
+            Biome.FOREST,
+            Biome.ICE_DESERT,
+            Biome.PLAINS,
+            Biome.PLAINS,
+            Biome.RAINFOREST,
+            Biome.RAINFOREST,
+            Biome.SAVANNA,
+            Biome.SEASONAL_FOREST,
+            Biome.SAVANNA,
+            Biome.SWAMPLAND,
+            Biome.TUNDRA,
+            Biome.TAIGA,
+        };
+        return biomes[pseudoRandomLast];
+    }
+    
+    public void setRand(int chunkX, int chunkZ) 
     {
         midX = (chunkX - (int)Math.floor(Math.IEEEremainder(chunkX, GRID_SIZE)) << 4) + 8;
         midZ = (chunkZ - (int)Math.floor(Math.IEEEremainder(chunkZ, GRID_SIZE)) << 4) + 8;
+        
         oreMidX = (midX + (GRID_SIZE / 2) * 16) - SPECIAL_RADIUS;
         oreMidZ = (midZ + (GRID_SIZE / 2) * 16) - SPECIAL_RADIUS;
         rndSphere.setSeed(1L);
@@ -208,7 +293,16 @@ public class BiosphereGenerator extends ChunkGenerator {
         lakeRadius = Math.round(sphereRadius / 4D);
         lakeEdgeRadius = lakeRadius + 2D;
         
-        biome = world.getEmptyChunkSnapshot(chunkX, chunkZ, true, false).getBiome(8, 8);
+//        biome = world.getEmptyChunkSnapshot(chunkX, chunkZ, true, false).getBiome(8, 8);
+        // dunno why this not works ?
+        
+        Biome biome = getBiome(chunkX, chunkZ);
+        
+        if(null != biome) {
+//            System.out.print("biome at " + chunkX + ":" + chunkZ + " is " + biome.toString());
+        } else {
+            System.out.print("no biome at " + chunkX + ":" + chunkZ);
+        }
         lavaLake = biome == Biome.HELL || biome != Biome.TUNDRA && rndSphere.nextInt(10) == 0;
         hasLake = rndSphere.nextInt(2) == 0;
         oreMidY = SPECIAL_RADIUS + 1 + rndSphere.nextInt(127 - (SPECIAL_RADIUS + 1));
@@ -269,14 +363,24 @@ public class BiosphereGenerator extends ChunkGenerator {
     }
     
     @Override
+    public Location getFixedSpawnLocation(World world, Random rndNoise) {
+        Location loc = new Location(world, 0, 52, 0);
+        return loc;
+    }
+    
+    @Override
     public boolean canSpawn(World world, int x, int z) {
-        Block highest = world.getBlockAt(x, world.getHighestBlockYAt(x, z), z);
-
-                return highest.getType() != Material.AIR
-                        && highest.getType() != Material.WATER
-                        && highest.getType() != Material.STATIONARY_WATER
-                        && highest.getType() != Material.BEDROCK
-                        && highest.getType() != Material.LAVA;
+        int y = world.getHighestBlockYAt(x, z);
+        Block highest = world.getBlockAt(x, y, z);
+        return highest.getType() == Material.SAND || 
+                highest.getType() == Material.GRASS;
+//        System.out.print("Highest block: " + highest.getTypeId() + " (" + highest.getType().name());
+//
+//                return highest.getType() != Material.AIR
+//                        && highest.getType() != Material.WATER
+//                        && highest.getType() != Material.STATIONARY_WATER
+//                        && highest.getType() != Material.BEDROCK
+//                        && highest.getType() != Material.LAVA;
     }
 
 
