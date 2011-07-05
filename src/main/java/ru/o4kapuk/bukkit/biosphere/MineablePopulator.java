@@ -66,7 +66,7 @@ public class MineablePopulator extends BlockPopulator {
                                     double d14 = ((double) i3 + 0.5D - d8) / (d10 / 2.0D);
 
                                     if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && world.getBlockTypeIdAt(k2, l2, i3) == Material.STONE.getId()) {
-                                        source.getBlock(k2, l2, i3).setType(ore);
+                                        world.getBlockAt(k2, l2, i3).setType(ore);
                                     }
                                 }
                             }

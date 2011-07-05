@@ -174,55 +174,7 @@ public class BiosphereBlockPopulator extends BlockPopulator {
             }
         }
     }
-    
-    private boolean isBuildable(Material material) {
-        return 
-                material != Material.AIR
-             && material != Material.WATER
-             && material != Material.LAVA
-             && material != Material.YELLOW_FLOWER
-             && material != Material.RED_ROSE
-             && material != Material.FIRE
-             && material != Material.SNOW
-             ;
-    }
-    
-    private boolean canPlaceCactus(int i, int j, int k) {
-        int under = world.getBlockTypeIdAt(i, j - 1, k);
-        
-        if(isBuildable(world.getBlockAt(i - 1, j, k).getType())
-        || isBuildable(world.getBlockAt(i + 1, j, k).getType())
-        || isBuildable(world.getBlockAt(i, j, k - 1).getType())
-        || isBuildable(world.getBlockAt(i, j, k + 1).getType())
-        ) {
-            return false;
-        }
-        
-        if(under != Material.CACTUS.getId() && under != Material.SAND.getId()) {
-            return false;            
-        }
 
-        return true;
-    }
-    
-    public void generateCactus(int i, int j, int k) {
-        for (int l = 0; l < 10; ++l) {
-            int i1 = i + random.nextInt(8) - random.nextInt(8);
-            int j1 = j + random.nextInt(4) - random.nextInt(4);
-            int k1 = k + random.nextInt(8) - random.nextInt(8);
-
-            if (world.getBlockTypeIdAt(i1, j1, k1) == Material.AIR.getId()) {
-                int l1 = 1 + random.nextInt(random.nextInt(3) + 1);
-
-                for (int i2 = 0; i2 < l1; ++i2) {
-                    if (canPlaceCactus(i1, j1 + i2, k1)) {
-                        world.getBlockAt(i1, j1, k1).setType(Material.CACTUS);
-                    }
-                }
-            }    
-        }
-    }
-    
     public void generateFire(int i, int j, int k) {
         for (int l = 0; l < 64; ++l) {
             int i1 = i + random.nextInt(8) - random.nextInt(8);
@@ -330,12 +282,6 @@ public class BiosphereBlockPopulator extends BlockPopulator {
         int midY = 32 + random.nextInt(64);
         if(null != biome) {
             switch(biome) {
-                case DESERT:
-                    for(i = 0; i < random.nextInt(5); i++) {
-                        System.out.print("Generating cactus");
-                        this.generateCactus(k1, midY, l1);
-                    }
-                    break;
                 case HELL:
                     if(random.nextBoolean()) {
                         this.generateFire(k1, midY, l1);

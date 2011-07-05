@@ -8,10 +8,10 @@ package ru.o4kapuk.bukkit.biosphere;
 import java.util.Random;
 
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.World;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
 /**
  *
@@ -28,17 +28,19 @@ public class FlowerPopulator extends BlockPopulator {
     
     @Override
     public void populate(World world, Random random, Chunk source) {
-        int x = source.getX() << 4 + random.nextInt(16) + 8;
-        int z = source.getZ() << 4 + random.nextInt(16) + 8;
+        int x = (source.getX() * 16) + random.nextInt(16) + 8;
+        int z = (source.getZ() * 16) + random.nextInt(16) + 8;
 
-        int y = 64;
-        ChunkGenerator gen = world.getGenerator();
-        if(gen instanceof BiosphereGenerator) {
-            y = ((BiosphereGenerator) gen).getSurfaceLevel(x, z);
+        int y = random.nextInt(128);
+        int count = 64;
+
+        Biome biome = BiosphereGenerator.getBiome(source);
+        if(biome == Biome.PLAINS) {
+            count = count * 2;
         }
         
-        if( 0 == random.nextInt(rarity) ) {
-            for (int l = 0; l < 64; ++l) {
+        if( (biome == Biome.PLAINS) || 0 == random.nextInt(rarity) ) {
+            for (int l = 0; l < count; ++l) {
                 int i1 = x + random.nextInt(8) - random.nextInt(8);
                 int j1 = y + random.nextInt(4) - random.nextInt(4);
                 int k1 = z + random.nextInt(8) - random.nextInt(8);

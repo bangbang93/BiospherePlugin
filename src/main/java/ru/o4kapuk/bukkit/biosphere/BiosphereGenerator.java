@@ -97,6 +97,7 @@ public class BiosphereGenerator extends ChunkGenerator {
         res.add(new FlowerPopulator(Material.RED_ROSE, 2));
         res.add(new FlowerPopulator(Material.BROWN_MUSHROOM, 4));
         res.add(new FlowerPopulator(Material.RED_MUSHROOM, 8));
+        res.add(new DesertPopulator());
         return res;
     }
 
@@ -266,15 +267,15 @@ public class BiosphereGenerator extends ChunkGenerator {
         
         Biome[] biomes = new Biome[] {
             Biome.HELL,
-            Biome.DESERT,
-            Biome.DESERT,
             Biome.FOREST,
             Biome.FOREST,
+            Biome.DESERT,
+            Biome.DESERT,
             Biome.ICE_DESERT,
-            Biome.PLAINS,
-            Biome.PLAINS,
             Biome.RAINFOREST,
             Biome.RAINFOREST,
+            Biome.PLAINS,
+            Biome.PLAINS,
             Biome.SAVANNA,
             Biome.SEASONAL_FOREST,
             Biome.SAVANNA,
@@ -298,20 +299,13 @@ public class BiosphereGenerator extends ChunkGenerator {
         long seed = ((long)midX * seedX + (long)midZ * seedZ) * 0x2656c0L ^ 1L;
         rndSphere.setSeed(seed);
         sphereRadius = Math.round(16D + rndSphere.nextDouble() * 32D + rndSphere.nextDouble() * 16D);
-        lakeRadius = Math.round(sphereRadius / 4D);
+        lakeRadius = Math.round(0.75D * rndSphere.nextDouble() * sphereRadius);
         lakeEdgeRadius = lakeRadius + 2D;
-        
-//        biome = world.getEmptyChunkSnapshot(chunkX, chunkZ, true, false).getBiome(8, 8);
-        // dunno why this not works ?
         
         Biome biome = getBiome(chunkX, chunkZ);
         
-        if(null != biome) {
-//            System.out.print("biome at " + chunkX + ":" + chunkZ + " is " + biome.toString());
-        } else {
-            System.out.print("no biome at " + chunkX + ":" + chunkZ);
-        }
-        lavaLake = biome == Biome.HELL || biome != Biome.TUNDRA && rndSphere.nextInt(10) == 0;
+        lavaLake = biome == Biome.HELL || biome == Biome.DESERT && rndSphere.nextInt(10) == 0;
+        lavaLake = biome == Biome.HELL;
         hasLake = rndSphere.nextInt(2) == 0;
         oreMidY = SPECIAL_RADIUS + 1 + rndSphere.nextInt(127 - (SPECIAL_RADIUS + 1));
         if(NOISE)
@@ -361,7 +355,6 @@ public class BiosphereGenerator extends ChunkGenerator {
                         res[(_x * 16 + _z) * 128 + _y] = (byte)Material.STATIONARY_WATER.getId();
                         continue;
                     }
-                     // result[(x * 16 + z) * 128 + y] = ??;
                 }
             }
         }
