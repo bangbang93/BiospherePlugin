@@ -125,7 +125,7 @@ public class BiosphereGenerator extends ChunkGenerator {
                             if(y >= midY + 4 || Math.abs((localChunkX + x) - midX) > BRIDGE_SIZE && Math.abs((localChunkZ + z) - midZ) > BRIDGE_SIZE)
                                 blockID = DOME_TYPE;
                         } else
-                        if(hasLake && NOISE && biome != Biome.DESERT && (mainDistance == lakeRadius + 1.0D || mainDistance == lakeRadius + 2D))
+                        if(hasLake && NOISE && biome != Biome.DESERT && biome != Biome.HELL && (mainDistance == lakeRadius + 1.0D || mainDistance == lakeRadius + 2D))
                         { // в непустынных биомах обсадить озеро травой
                             if(y == lakeMidY)
                                 blockID = (byte)Material.GRASS.getId();
@@ -306,7 +306,22 @@ public class BiosphereGenerator extends ChunkGenerator {
         
         lavaLake = biome == Biome.HELL || biome == Biome.DESERT && rndSphere.nextInt(10) == 0;
         lavaLake = biome == Biome.HELL;
-        hasLake = rndSphere.nextInt(2) == 0;
+
+        switch(biome) {
+            case RAINFOREST:
+            case SWAMPLAND:
+                hasLake = true;
+                break;
+            case DESERT:
+            case ICE_DESERT:
+            case SAVANNA:
+            case FOREST:
+                hasLake = false;
+                break;
+            default:
+                hasLake = rndSphere.nextInt(2) == 0;
+        }
+
         oreMidY = SPECIAL_RADIUS + 1 + rndSphere.nextInt(127 - (SPECIAL_RADIUS + 1));
         if(NOISE)
         {
@@ -409,8 +424,13 @@ public class BiosphereGenerator extends ChunkGenerator {
 
     public int getSurfaceLevel(int x, int z)
     {
-        if(NOISE)
-            return (int)Math.round(64D + noise[z + x * 16] * 8D);
+        if(NOISE) {
+            double noiseHeight = 8;
+            if(getBiome(x >> 4, z >> 4) == Biome.TAIGA) {
+                noiseHeight = 20;
+            }
+            return (int)Math.round(64D + noise[z + x * 16] * noiseHeight);
+        }
         else
             return 64;
     }

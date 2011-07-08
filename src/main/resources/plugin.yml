@@ -1,4 +1,4 @@
-name: Biosphere Plugin
+name: BiospherePlugin
 main: ru.o4kapuk.bukkit.biosphere.BiospherePlugin
 version: 0.0.1
 commands:
