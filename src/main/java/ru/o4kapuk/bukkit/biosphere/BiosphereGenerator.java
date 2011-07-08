@@ -43,15 +43,15 @@ public class BiosphereGenerator extends ChunkGenerator {
     public double sphereRadius;
 
 
-    public static final byte DOME_TYPE = 20;
-    public static final byte BRIDGE_SUPPORT = 5;
-    public static final byte BRIDGE_RAIL = 85;
-    public static final byte BRIDGE_SIZE = 3;
-    public static final int SPECIAL_RADIUS = 7;
+    public static byte DOME_TYPE = 20;
+    public static byte BRIDGE_SUPPORT = 5;
+    public static byte BRIDGE_RAIL = 85;
+    public static byte BRIDGE_SIZE = 3;
+    public static int SPECIAL_RADIUS = 7;
     
 
-    public static final boolean NOISE = true;
-    public static final boolean WATERWORLD = false;
+    public static boolean NOISE = true;
+    public static boolean WATERWORLD = false;
 
     public boolean hasLake;
     public boolean lavaLake;
