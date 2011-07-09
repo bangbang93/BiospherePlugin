@@ -226,18 +226,38 @@ public class BiosphereBlockPopulator extends BlockPopulator {
         if(random.nextInt(10) == 0)
             treeCount += 5;
                     
+        TreeType treeType = TreeType.TREE;
         if(null != biome) {
             switch(biome) {
-                case SEASONAL_FOREST:
-                    treeCount += 10;
-                    break;
-                case RAINFOREST:
-                case FOREST:
                 case TAIGA:
+                    treeType = TreeType.TALL_REDWOOD;
                     treeCount += 50;
                     break;
-                case DESERT:
+                case RAINFOREST:
+                    treeCount += 50;
+                    if(random.nextInt(3) == 0) {
+                        treeType = TreeType.BIG_TREE;
+                    }
+                    break;
+                case SEASONAL_FOREST:
+                    treeCount += 25;
+                    if(random.nextInt(5) == 0) {
+                        treeType = TreeType.BIG_TREE;
+                    }
+                    break;
+                case FOREST:
+                    treeCount += 10;
+                    if(random.nextInt(10) == 0) {
+                        treeType = TreeType.BIG_TREE;
+                    }
+                    break;
                 case TUNDRA:
+                    treeCount += 1;
+                    if(random.nextInt(10) == 0) {
+                        treeType = TreeType.REDWOOD;
+                    }
+                    break;
+                case DESERT:
                 case PLAINS:
                 treeCount -= 100;
             }
@@ -247,9 +267,10 @@ public class BiosphereBlockPopulator extends BlockPopulator {
         {
             int x = k + random.nextInt(16) + 8;
             int z = l + random.nextInt(16) + 8;
-            int y = 32 + random.nextInt(64);
+//            int y = 32 + random.nextInt(64);
+            int y = world.getHighestBlockYAt(x, z);
             Location loc = new Location(world, x, y, z);
-            world.generateTree(loc, random.nextInt(10) == 0 ? TreeType.BIG_TREE : TreeType.TREE);
+            world.generateTree(loc, treeType);
         }
         
 //        for(i = 0; i < 2; i++) {
