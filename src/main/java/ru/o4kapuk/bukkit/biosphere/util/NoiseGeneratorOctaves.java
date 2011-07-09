@@ -2,12 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.o4kapuk.bukkit.biosphere;
+package ru.o4kapuk.bukkit.biosphere.util;
 
 /**
  *
  * @author o4kapuk
  */
+import ru.o4kapuk.bukkit.biosphere.util.NoiseGenerator;
 import java.util.Random;
 
 public class NoiseGeneratorOctaves extends NoiseGenerator {

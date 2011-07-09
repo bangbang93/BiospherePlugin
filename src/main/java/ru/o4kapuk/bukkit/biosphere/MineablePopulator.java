@@ -4,6 +4,7 @@
  */
 package ru.o4kapuk.bukkit.biosphere;
 
+import ru.o4kapuk.bukkit.biosphere.util.MathHelper;
 import java.util.Random;
 
 import org.bukkit.generator.BlockPopulator;

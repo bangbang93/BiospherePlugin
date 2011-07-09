@@ -8,17 +8,19 @@ import java.util.Random;
 import java.util.List;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-//import java.util.ArrayList;
 
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.Chunk;
-//import org.bukkit.ChunkSnapshot;
 import org.bukkit.World;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Biome;
 import org.bukkit.Location;
+
+import ru.o4kapuk.bukkit.biosphere.util.NoiseGeneratorOctaves;
+import ru.o4kapuk.bukkit.biosphere.populator.DesertPopulator;
+import ru.o4kapuk.bukkit.biosphere.populator.TaigaPopulator;
 
 /**
  *
@@ -98,6 +100,7 @@ public class BiosphereGenerator extends ChunkGenerator {
         res.add(new FlowerPopulator(Material.BROWN_MUSHROOM, 4));
         res.add(new FlowerPopulator(Material.RED_MUSHROOM, 8));
         res.add(new DesertPopulator());
+        res.add(new TaigaPopulator());
         return res;
     }
 
@@ -434,5 +437,6 @@ public class BiosphereGenerator extends ChunkGenerator {
         else
             return 64;
     }
+    
     
 }

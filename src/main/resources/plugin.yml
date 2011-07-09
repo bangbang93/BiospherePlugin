@@ -5,3 +5,7 @@ commands:
   biosphere:
     description: Generates biosphere world.
     usage: /biosphere name
+  biome:
+    description: Shows current biome in biosphere world.
+    usage: /biome
+    

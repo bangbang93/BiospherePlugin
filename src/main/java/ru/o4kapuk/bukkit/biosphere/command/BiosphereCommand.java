@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.o4kapuk.bukkit.biosphere;
+package ru.o4kapuk.bukkit.biosphere.command;
 
 import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.Location;
+import ru.o4kapuk.bukkit.biosphere.BiosphereGenerator;
+import ru.o4kapuk.bukkit.biosphere.BiospherePlugin;
 
 /**
  *

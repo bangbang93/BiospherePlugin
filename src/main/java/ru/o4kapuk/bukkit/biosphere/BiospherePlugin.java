@@ -1,6 +1,8 @@
 
 package ru.o4kapuk.bukkit.biosphere;
 
+import ru.o4kapuk.bukkit.biosphere.command.BiosphereCommand;
+import ru.o4kapuk.bukkit.biosphere.command.BiomeCommand;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.plugin.PluginManager;
@@ -33,6 +35,7 @@ public class BiospherePlugin extends JavaPlugin {
         
         // Register our commands
         getCommand("biosphere").setExecutor(new BiosphereCommand(this));
+        getCommand("biome").setExecutor(new BiomeCommand(this));
 
         PluginDescriptionFile pdfFile = this.getDescription();
         System.out.println( pdfFile.getName() + " version " + pdfFile.getVersion() + " enabled" );
