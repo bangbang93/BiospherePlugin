@@ -30,18 +30,18 @@ public class BiosphereBlockPopulator extends BlockPopulator {
     public void generateClay(int param, int i, int j, int k) {
         if(world.getBlockTypeIdAt(i, j, k) == Material.WATER.getId()) {
             float f = random.nextFloat() * 3.1415927F;
-            double d0 = (double) ((float) (i + 8) + MathHelper.a(f) * (float) param / 8.0F);
-            double d1 = (double) ((float) (i + 8) - MathHelper.a(f) * (float) param / 8.0F);
-            double d2 = (double) ((float) (k + 8) + MathHelper.b(f) * (float) param / 8.0F);
-            double d3 = (double) ((float) (k + 8) - MathHelper.b(f) * (float) param / 8.0F);
+            double d0 = (double) ((float) (i + 8) + MathHelper.sin(f) * (float) param / 8.0F);
+            double d1 = (double) ((float) (i + 8) - MathHelper.sin(f) * (float) param / 8.0F);
+            double d2 = (double) ((float) (k + 8) + MathHelper.cos(f) * (float) param / 8.0F);
+            double d3 = (double) ((float) (k + 8) - MathHelper.cos(f) * (float) param / 8.0F);
             double d4 = (double) (j + random.nextInt(3) + 2);
             double d5 = (double) (j + random.nextInt(3) + 2);            for (int l = 0; l <= param; ++l) {
                 double d6 = d0 + (d1 - d0) * (double) l / (double) param;
                 double d7 = d4 + (d5 - d4) * (double) l / (double) param;
                 double d8 = d2 + (d3 - d2) * (double) l / (double) param;
                 double d9 = random.nextDouble() * (double) param / 16.0D;
-                double d10 = (double) (MathHelper.a((float) l * 3.1415927F / (float) param) + 1.0F) * d9 + 1.0D;
-                double d11 = (double) (MathHelper.a((float) l * 3.1415927F / (float) param) + 1.0F) * d9 + 1.0D;
+                double d10 = (double) (MathHelper.sin((float) l * 3.1415927F / (float) param) + 1.0F) * d9 + 1.0D;
+                double d11 = (double) (MathHelper.sin((float) l * 3.1415927F / (float) param) + 1.0F) * d9 + 1.0D;
 
                 for (int i1 = (int) (d6 - d10 / 2.0D); i1 <= (int) (d6 + d10 / 2.0D); ++i1) {
                     for (int j1 = (int) (d7 - d11 / 2.0D); j1 <= (int) (d7 + d11 / 2.0D); ++j1) {
@@ -288,7 +288,6 @@ public class BiosphereBlockPopulator extends BlockPopulator {
 //        if(random.nextInt(8) == 0) {
 //            this.generateFlowers(Material.RED_MUSHROOM, k + random.nextInt(16) + 8, random.nextInt(128), l + random.nextInt(16) + 8);
 //        }
-        
         for(i = 0; i < 10; i++) {
             this.generateReed(k + random.nextInt(16), random.nextInt(128), l + random.nextInt(16));
         }

@@ -34,10 +34,10 @@ public class MineablePopulator extends BlockPopulator {
             int j = random.nextInt(128);
             int k = random.nextInt(16);
             float f = random.nextFloat() * 3.1415927F;
-            double d0 = (double) ((float) (i + 8) + MathHelper.a(f) * (float) count / 8.0F);
-            double d1 = (double) ((float) (i + 8) - MathHelper.a(f) * (float) count / 8.0F);
-            double d2 = (double) ((float) (k + 8) + MathHelper.b(f) * (float) count / 8.0F);
-            double d3 = (double) ((float) (k + 8) - MathHelper.b(f) * (float) count / 8.0F);
+            double d0 = (double) ((float) (i + 8) + MathHelper.sin(f) * (float) count / 8.0F);
+            double d1 = (double) ((float) (i + 8) - MathHelper.sin(f) * (float) count / 8.0F);
+            double d2 = (double) ((float) (k + 8) + MathHelper.cos(f) * (float) count / 8.0F);
+            double d3 = (double) ((float) (k + 8) - MathHelper.cos(f) * (float) count / 8.0F);
             double d4 = (double) (j + random.nextInt(3) + 2);
             double d5 = (double) (j + random.nextInt(3) + 2);
 
@@ -46,8 +46,8 @@ public class MineablePopulator extends BlockPopulator {
                 double d7 = d4 + (d5 - d4) * (double) l / (double) count;
                 double d8 = d2 + (d3 - d2) * (double) l / (double) count;
                 double d9 = random.nextDouble() * (double) count / 16.0D;
-                double d10 = (double) (MathHelper.a((float) l * 3.1415927F / (float) count) + 1.0F) * d9 + 1.0D;
-                double d11 = (double) (MathHelper.a((float) l * 3.1415927F / (float) count) + 1.0F) * d9 + 1.0D;
+                double d10 = (double) (MathHelper.sin((float) l * 3.1415927F / (float) count) + 1.0F) * d9 + 1.0D;
+                double d11 = (double) (MathHelper.sin((float) l * 3.1415927F / (float) count) + 1.0F) * d9 + 1.0D;
                 int i1 = (int) (d6 - d10 / 2.0D);
                 int j1 = (int) (d7 - d11 / 2.0D);
                 int k1 = (int) (d8 - d10 / 2.0D);

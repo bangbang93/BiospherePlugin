@@ -14,29 +14,29 @@ public class MathHelper {
 
     public MathHelper() {}
 
-    public static final float a(float f) {
+    public static float sin(float f) {
         return a[(int) (f * 10430.378F) & '\uffff'];
     }
 
-    public static final float b(float f) {
+    public static float cos(float f) {
         return a[(int) (f * 10430.378F + 16384.0F) & '\uffff'];
     }
 
-    public static final float c(float f) {
+    public static float sqrt_float(float f) {
         return (float) Math.sqrt((double) f);
     }
 
-    public static final float a(double d0) {
+    public static float sqrt_double(double d0) {
         return (float) Math.sqrt(d0);
     }
 
-    public static int d(float f) {
+    public static int floor_float(float f) {
         int i = (int) f;
 
         return f < (float) i ? i - 1 : i;
     }
 
-    public static int b(double d0) {
+    public static int floor_double(double d0) {
         int i = (int) d0;
 
         return d0 < (double) i ? i - 1 : i;

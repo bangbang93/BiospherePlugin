@@ -50,6 +50,7 @@ public class BiospherePlugin extends JavaPlugin {
         BiosphereGenerator.BRIDGE_SUPPORT = (byte) getConfiguration().getInt("biosphere.bridge_support", 5);
         BiosphereGenerator.BRIDGE_RAIL = (byte) getConfiguration().getInt("biosphere.bridge_rail", 85);
         BiosphereGenerator.SPECIAL_RADIUS = getConfiguration().getInt("biosphere.special_radius", 7);
+        BiosphereGenerator.LAVA_LEVEL = (byte) getConfiguration().getInt("biosphere.lava_level", 24);
     	getConfiguration().save();
     }
 }

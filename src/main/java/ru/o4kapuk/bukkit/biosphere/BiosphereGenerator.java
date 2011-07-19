@@ -49,6 +49,7 @@ public class BiosphereGenerator extends ChunkGenerator {
     public static byte BRIDGE_SUPPORT = 5;
     public static byte BRIDGE_RAIL = 85;
     public static byte BRIDGE_SIZE = 3;
+    public static byte LAVA_LEVEL = 24;
     public static int SPECIAL_RADIUS = 7;
     
 
@@ -361,21 +362,23 @@ public class BiosphereGenerator extends ChunkGenerator {
         
         this.setRand(x, z);
         this.preGenerateChunk(x, z, res);
+        BiosphereCaveGenerator caveGenerator = new BiosphereCaveGenerator(this);
+        caveGenerator.generate(world, x, z, res);
 
-        for (int _x = 0; _x < 16; _x++) {
-            for (int _z = 0; _z < 16; _z++) {
-                for (int _y = 0; _y < 128; _y++) {
-                    if(_y < 2) {
-                        res[(_x * 16 + _z) * 128 + _y] = (byte)Material.BEDROCK.getId();
-                        continue;
-                    }
-                    if(_y < 3) {
-                        res[(_x * 16 + _z) * 128 + _y] = (byte)Material.STATIONARY_WATER.getId();
-                        continue;
-                    }
-                }
-            }
-        }
+//        for (int _x = 0; _x < 16; _x++) {
+//            for (int _z = 0; _z < 16; _z++) {
+//                for (int _y = 0; _y < 128; _y++) {
+//                    if(_y < 2) {
+//                        res[(_x * 16 + _z) * 128 + _y] = (byte)Material.BEDROCK.getId();
+//                        continue;
+//                    }
+//                    if(_y < 3) {
+//                        res[(_x * 16 + _z) * 128 + _y] = (byte)Material.STATIONARY_WATER.getId();
+//                        continue;
+//                    }
+//                }
+//            }
+//        }
         
         
         return res;
