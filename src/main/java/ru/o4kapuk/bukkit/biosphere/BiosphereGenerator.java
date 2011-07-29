@@ -270,7 +270,7 @@ public class BiosphereGenerator extends ChunkGenerator {
         
         
 //        System.out.print("pseudoRandomLast " + pseudoRandomLast);
-        
+
         Biome[] biomes = new Biome[] {
             Biome.HELL,
             Biome.FOREST,
@@ -289,6 +289,12 @@ public class BiosphereGenerator extends ChunkGenerator {
             Biome.TUNDRA,
             Biome.TAIGA,
         };
+
+        if (pseudoRandomLast < 0)
+            pseudoRandomLast = 0;
+        if (pseudoRandomLast > biomes.length)
+            pseudoRandomLast = biomes.length - 1;
+
         return biomes[pseudoRandomLast];
     }
     
