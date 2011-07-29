@@ -18,6 +18,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Biome;
 import org.bukkit.Location;
 
+import ru.o4kapuk.bukkit.biosphere.populator.ForestPopulator;
 import ru.o4kapuk.bukkit.biosphere.util.NoiseGeneratorOctaves;
 import ru.o4kapuk.bukkit.biosphere.populator.DesertPopulator;
 import ru.o4kapuk.bukkit.biosphere.populator.TaigaPopulator;
@@ -102,6 +103,7 @@ public class BiosphereGenerator extends ChunkGenerator {
         res.add(new FlowerPopulator(Material.RED_MUSHROOM, 8));
         res.add(new DesertPopulator());
         res.add(new TaigaPopulator());
+        res.add(new ForestPopulator());
         return res;
     }
 
@@ -130,7 +132,7 @@ public class BiosphereGenerator extends ChunkGenerator {
                                 blockID = DOME_TYPE;
                         } else
                         if(hasLake && NOISE && biome != Biome.DESERT && biome != Biome.HELL && (mainDistance == lakeRadius + 1.0D || mainDistance == lakeRadius + 2D))
-                        { // в непустынных биомах обсадить озеро травой
+                        { // пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                             if(y == lakeMidY)
                                 blockID = (byte)Material.GRASS.getId();
                             else
