@@ -292,7 +292,7 @@ public class BiosphereGenerator extends ChunkGenerator {
 
         if (pseudoRandomLast < 0)
             pseudoRandomLast = 0;
-        if (pseudoRandomLast > biomes.length)
+        if (pseudoRandomLast >= biomes.length)
             pseudoRandomLast = biomes.length - 1;
 
         return biomes[pseudoRandomLast];
