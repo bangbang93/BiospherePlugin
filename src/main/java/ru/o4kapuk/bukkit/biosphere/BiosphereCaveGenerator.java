@@ -220,11 +220,11 @@ public class BiosphereCaveGenerator {
                             byte byte0 = abyte0[k4];
                             if(byte0 == Material.STONE.getId() || byte0 == Material.SAND.getId() ||  byte0 == Material.GRAVEL.getId()  || byte0 == Material.DIAMOND_ORE.getId()  || byte0 == Material.LAPIS_ORE.getId() )
                             {
+                                double d15 = generator.getMainDistance((int)Math.round((d4 + (double)l3) - 8D), l4 - 1, (int)Math.round((d5 + (double)j3) - 8D));
                                 if(l4 < BiosphereGenerator.LAVA_LEVEL)
                                 {
                                     if(generator != null)
                                     {
-                                        double d15 = generator.getMainDistance((int)Math.round((d4 + (double)l3) - 8D), l4 - 1, (int)Math.round((d5 + (double)j3) - 8D));
                                         if(d15 >= generator.sphereRadius && d15 < generator.sphereRadius + 5D)
                                         {
                                             abyte0[k4] = (byte)Material.BEDROCK.getId();
@@ -238,7 +238,7 @@ public class BiosphereCaveGenerator {
                                         abyte0[k4] = (byte)Material.LAVA.getId();
                                     }
                                 } else
-                                if(l4 < generator.midY - 2 || l4 > generator.midY - 1)
+                                if((l4 < generator.midY - 2 || l4 > generator.midY - 1) && (d15 <= 2 + generator.sphereRadius))
                                 {
                                     abyte0[k4] = 0;
                                 }

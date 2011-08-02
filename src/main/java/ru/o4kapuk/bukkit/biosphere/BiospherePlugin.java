@@ -1,14 +1,14 @@
 
 package ru.o4kapuk.bukkit.biosphere;
 
-import ru.o4kapuk.bukkit.biosphere.command.BiosphereCommand;
-import ru.o4kapuk.bukkit.biosphere.command.BiomeCommand;
+import ru.o4kapuk.bukkit.biosphere.command.*;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.event.Event;
+import org.bukkit.craftbukkit.CraftWorld;
 /**
  * Sample plugin for Bukkit
  *
@@ -16,6 +16,7 @@ import org.bukkit.event.Event;
  */
 public class BiospherePlugin extends JavaPlugin {
     private final BiospherePlayerListener playerListener = new BiospherePlayerListener();
+    private final BiosphereWorldListener worldListener = new BiosphereWorldListener();
 
     public void onDisable() {
         PluginDescriptionFile pdfFile = this.getDescription();
@@ -25,17 +26,19 @@ public class BiospherePlugin extends JavaPlugin {
     public void onEnable() {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
+        pm.registerEvent(Event.Type.WORLD_INIT, worldListener, Event.Priority.High, this);
         reload();
 
         World bio = getServer().getWorld("biosphere");
         if(null == bio) {
             BiosphereGenerator gen = new BiosphereGenerator();
-            bio = getServer().createWorld("biosphere",Environment.SKYLANDS,getServer().getWorlds().get(0).getSeed(), gen);
+            bio = getServer().createWorld("biosphere",Environment.NORMAL,getServer().getWorlds().get(0).getSeed(), gen);
         }
         
         // Register our commands
         getCommand("biosphere").setExecutor(new BiosphereCommand(this));
         getCommand("biome").setExecutor(new BiomeCommand(this));
+        getCommand("test").setExecutor(new TestCommand(this));
 
         PluginDescriptionFile pdfFile = this.getDescription();
         System.out.println( pdfFile.getName() + " version " + pdfFile.getVersion() + " enabled" );

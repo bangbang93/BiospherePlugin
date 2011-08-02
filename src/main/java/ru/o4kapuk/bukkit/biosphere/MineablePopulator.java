@@ -29,10 +29,19 @@ public class MineablePopulator extends BlockPopulator {
     
     @Override
     public void populate(World world, Random random, Chunk source) {
-        for(int m = 0; m < multiplier; m++) {
-            int i = random.nextInt(16);
+            
+            BiosphereGenerator generator = (BiosphereGenerator)world.getGenerator();
+            generator.setNoise(source);
+
+            for(int m = 0; m < multiplier; m++) {
+            int i = (source.getX() * 16) + random.nextInt(16);
             int j = random.nextInt(128);
-            int k = random.nextInt(16);
+            int k = (source.getZ() * 16) + random.nextInt(16);
+            
+            if(generator.getMainDistance(i, j, k) > generator.sphereRadius) {
+                continue;
+            }
+            
             float f = random.nextFloat() * 3.1415927F;
             double d0 = (double) ((float) (i + 8) + MathHelper.sin(f) * (float) count / 8.0F);
             double d1 = (double) ((float) (i + 8) - MathHelper.sin(f) * (float) count / 8.0F);

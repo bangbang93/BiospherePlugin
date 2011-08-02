@@ -89,14 +89,16 @@ public class BiosphereGenerator extends ChunkGenerator {
         }
     }
 
+    
+    
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world) {
         List<BlockPopulator> res = super.getDefaultPopulators(world);
         res.add(new BiosphereBlockPopulator());
         res.add(new MineablePopulator(Material.COAL_ORE, 20, 16));
-        res.add(new MineablePopulator(Material.IRON_ORE, 20, 8));
-        res.add(new MineablePopulator(Material.GOLD_ORE, 2, 8));
-        res.add(new MineablePopulator(Material.REDSTONE_ORE, 8, 7));
+        res.add(new MineablePopulator(Material.IRON_ORE, 40, 16));
+        res.add(new MineablePopulator(Material.GOLD_ORE, 6, 8));
+        res.add(new MineablePopulator(Material.REDSTONE_ORE, 8, 14));
         res.add(new FlowerPopulator(Material.YELLOW_FLOWER, 2));
         res.add(new FlowerPopulator(Material.RED_ROSE, 2));
         res.add(new FlowerPopulator(Material.BROWN_MUSHROOM, 4));
@@ -104,6 +106,7 @@ public class BiosphereGenerator extends ChunkGenerator {
         res.add(new DesertPopulator());
         res.add(new TaigaPopulator());
         res.add(new ForestPopulator());
+        System.out.println("Populators set");
         return res;
     }
 
@@ -153,7 +156,7 @@ public class BiosphereGenerator extends ChunkGenerator {
                         if(WATERWORLD && y == midY + 4 && mainDistance > sphereRadius && (Math.abs((localChunkX + x) - midX) < BRIDGE_SIZE || Math.abs((localChunkZ + z) - midZ) < BRIDGE_SIZE))
                             blockID = DOME_TYPE;
                         else
-                        if(WATERWORLD && y < midY + 4 && mainDistance > sphereRadius && (Math.abs((localChunkX + x) - midX) < BRIDGE_SIZE || Math.abs((localChunkZ + z) - midZ) < BRIDGE_SIZE))
+                        if(WATERWORLD && y < midY + 4 && mainDistance > sphereRadius && (Math.abs((localChunkX + x) - midX) < BRIDGE_SIZE || Math.abs((localChunkZ + z) - midZ) < BRIDGE_SIZE) && (BRIDGE_SIZE > 0))
                             blockID = 0;
                         else
                         if(WATERWORLD && mainDistance > sphereRadius)
@@ -263,7 +266,8 @@ public class BiosphereGenerator extends ChunkGenerator {
  //           random.setSeed(sphereX);
 
     //        int pseudoRandom = random.nextInt(Math.abs(sphereZ));
-            pseudoRandomLast = 8 + (int) (Math.floor(Math.IEEEremainder(thedigest[0], 16)));
+//            pseudoRandomLast = 8 + (int) (Math.floor(Math.IEEEremainder(thedigest[0], 16)));
+            pseudoRandomLast = thedigest[0] & 0xf;
 //            pseudoRandomLast = pseudoRandom - 20*Math.round(pseudoRandom/20);
         } catch (NoSuchAlgorithmException e) {
         }
@@ -351,6 +355,9 @@ public class BiosphereGenerator extends ChunkGenerator {
         }
     }
 
+    public void setNoise(Chunk chunk) {
+        setNoise(chunk.getX(), chunk.getZ());
+    }
     
     public void setNoise(int chunkX, int chunkZ)
     {
