@@ -31,7 +31,10 @@ public class BiomeCommand implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player)sender;
             Location loc = player.getLocation();
+            
             player.sendMessage(BiosphereGenerator.getBiome(loc.getBlock().getChunk()).toString());
+            player.sendMessage(loc.getBlock().getBiome().toString());
+            player.sendMessage("Temperature is " + loc.getBlock().getTemperature());            
         }
         return true;
     }
